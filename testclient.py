@@ -8,5 +8,5 @@ sock.connect((HOST, PORT))
 while True:
     msg = "UPDATE"
     sock.send(msg.encode())
-    print(sock.recv(1024).decode('utf-8'))
+    #print(sock.recv(1024).decode('utf-8'))
 
