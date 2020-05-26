@@ -67,18 +67,20 @@ def barcode_get_item(request):
     try:
         # books = Book.objects.filter()
         # response['list'] = json.loads(serializers.serialize("json", books))
-        print(request.GET.get('barcode'))
-        response['productInfo']=[
-             {
-                "barcode": "012000000133",
-                "name": "Pepsi",
-                "price": "4"
-            }
+        # print(request.GET.get('barcode'))
+        response['productInfo']=[json.loads(queryBarcode(request.GET.get('barcode')))]
+        print("1111",response['productInfo'])
+        # response['productInfo']=[
+        #      {
+        #         "barcode": "012000000133",
+        #         "name": "Pepsi",
+        #         "price": "4"
+        #     }
+        # ]
 
-        ]
         response['msg'] = 'success'
         response['error_num'] = 0
-        response['newItem'] =1
+        response['newItem'] =0
     except  Exception as e:
         response['msg'] = str(e)
         response['error_num'] = 1
