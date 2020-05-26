@@ -27,7 +27,7 @@ export default {
   data () {
     return {
       input: '',
-      productInfo: []
+      productInfo: {}
     }
   },
   name: 'FirstPage',
@@ -46,9 +46,9 @@ export default {
         var res = response.data
         console.log(res)
         this.productInfo = res['productInfo']
-        // if (res['newItem'] === 1) {
-        //   this.$router.push('/newProduct')
-        // }
+        if (res['newItem'] === 1) {
+          this.$router.push('/newProduct')
+        }
       })
     }
   }
