@@ -48,21 +48,17 @@ class ServerThread(threading.Thread):
             with open('sales.json') as json_file:
                 sales = json.load(json_file)
             try:
-                while not self.stopped:
+                while True:
                     msg = conn.recv(self.data_size)
                     msg_str = msg.decode('utf-8')
                     print('clent sent', msg_str)
                     reply = ""
-                    if msg_str == 'QUIT':
-                        print('Client close the connection')
-                        self.stopped = True
-                    elif msg_str != "UPDATE":
+                    if msg_str != "UPDATE":
                         reply = "FALSE"
                         conn.sendall(reply.encode())
                     else:
                         reply = json.dumps(sales)
                         conn.sendall(reply.encode())
-                conn.close()
             except Exception as msg:
                 print ("Socket Error: %s" % msg)
                 conn.close()
