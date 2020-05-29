@@ -1,7 +1,9 @@
 <template>
+<div>
+  <Header></Header>
    <el-form ref="form" :model="form" label-width="120px">
     <el-form-item label="Barcode Number">
-        <el-input v-model="form.barcode"></el-input>
+        <el-input v-model="form.barcode">{{form.barcode}}</el-input>
     </el-form-item>
     <el-form-item label="Product Name">
         <el-input v-model="form.name"></el-input>
@@ -16,7 +18,8 @@
         <el-button type="primary" @click="onSubmit">Create</el-button>
         <el-button @click="goBack">Cancel</el-button>
     </el-form-item>
-</el-form>
+  </el-form>
+</div>
 </template>
 
 <script>
@@ -29,10 +32,22 @@ export default {
         price: '',
         sup: ''
       }
+
     }
   },
   name: 'NewProduct',
+  created () {
+    console.log('hello!!!!!!!!!')
+    this.getParams()
+  },
   methods: {
+    getParams () {
+      console.log('>>!!')
+      const barcodeParm = this.$route.query.barcode
+      console.log(barcodeParm)
+      this.form.barcode = barcodeParm
+      console.log('>>!!')
+    },
     onSubmit () {
       console.log('submit')
       console.log(this.form)
