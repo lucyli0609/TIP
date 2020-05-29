@@ -1,33 +1,65 @@
 <template>
     <div>
-      <el-row>
-        <p>111</p>
-        <el-button @click="showBook"> hello</el-button>
-      </el-row>
-      <el-row display="margin-top:10px">
-        <el-input placeholder="Enter Barcode" v-model="input"  style="display:inline-table; width: 30%; float:left"></el-input>
-        <el-button @click="submitBarcode" style="float:left; margin: 2px;"> submit</el-button>
-      </el-row>
-      <el-row>
-        <el-table :data="productInfo" style="width: 100%" border>
-          <el-table-column prop="barcode" label="Barcode Number" min-width="100">
-          </el-table-column>
-          <el-table-column prop="name" label="Product Name" min-width="100">
-          </el-table-column>
-          <el-table-column prop="price" label="Product Unit Price" min-width="100">
-          </el-table-column>
-        </el-table>
+      <Header></Header>
+      <div class='MainBox'>
+        <el-row>
+          <div class='box1'>
+            <el-upload
+              action="#"
+              list-type="picture-card"
+              :auto-upload="false">
+                <i slot="default" class="el-icon-plus"></i>
+                <div slot="file" slot-scope="{file}">
+                  <img
+                    class="el-upload-list__item-thumbnail"
+                    :src="file.url" alt=""
+                  >
+                   <span class="el-upload-list__item-actions">
+                    <span
+                      v-if="!disabled"
+                      class="el-upload-list__item-delete"
+                      @click="handleUpload(file)"
+                    >
+                      <i class="el-icon-upload2"></i>
+                    </span>
+                </div>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+        </el-row>
+        <el-row display="margin-top:10px">
+          <el-input placeholder="Enter Barcode" v-model="input" :disabled="true" style="display:inline-table; width: 60%; float:left"></el-input>
+          <el-button @click="submitBarcode" style="float:left; margin: 2px;"> submit</el-button>
+        </el-row>
+        <el-row>
+          <el-table :data="productInfo" style="width: 100%" border>
+            <el-table-column prop="barcode" label="Barcode Number" min-width="100">
+            </el-table-column>
+            <el-table-column prop="name" label="Product Name" min-width="100">
+            </el-table-column>
+            <el-table-column prop="price" label="Product Unit Price" min-width="100">
+            </el-table-column>
+          </el-table>
 
-      </el-row>
+        </el-row>
+      </div>
     </div>
 </template>
 
 <script>
+import Header from '../components/Header'
 export default {
   data () {
     return {
       input: '',
-      productInfo: {}
+      productInfo: {
+        barcode: '',
+        name: '',
+        price: ''
+      },
+      fileName: '',
+      barcode: ''
     }
   },
   name: 'FirstPage',
@@ -46,11 +78,42 @@ export default {
         var res = response.data
         console.log(res)
         this.productInfo = res['productInfo']
+        console.log(res['productInfo'])
+        console.log(res['productInfo'][0].barcode)
         if (res['newItem'] === 1) {
-          this.$router.push('/newProduct')
+          console.log('he!')
+          this.$router.push({
+            path: '/NewProduct',
+            name: 'NewProduct',
+            query: {
+              barcode: res['productInfo'][0].barcode
+            }
+            // params: {
+            //   barcode: res['productInfo'].barcode
+            // }
+          })
         }
       })
+    },
+
+    handleUpload (file) {
+      console.log(file.name)
+      this.fileName = file.name
+      this.input = this.fileName
     }
+
+  },
+  components: {
+    Header
   }
 }
 </script>
+
+<style scoped>
+.MainBox{
+  margin-top: 20px;
+}
+.box1{
+  align-items: center;
+}
+</style>
