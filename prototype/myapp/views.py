@@ -33,8 +33,10 @@ def queryPos():
     #make connection
     HOST = '127.0.0.1'
     PORT = 9002
+    print("I want to connect!")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
+    print("I connected")
     #send query message
     msg = "UPDATE"
     sock.send(msg.encode())
@@ -92,7 +94,7 @@ def add_product(barcode, quantity, name, price):
         database[barcode]['quantity']=int(database[barcode]['quantity'])+int(quantity)
         print('here')
     else:
-        database[barcode]={'barcode':barcode,'name':name, 'quantity':int(quantity), 'price': price}
+        database[barcode]={'barcode':barcode,'name':name, 'quantity':int(quantity), 'price': price, 'salesQuantity': 0}
         print('there')
     with open(path+'/myapp/database.json', 'w') as jsonFile:
         print(database)
@@ -109,3 +111,29 @@ def update_info(request):
     response={}
     response['msg'] = 'success'
     return JsonResponse(response)
+
+
+@require_http_methods(["GET"])
+def overview_item(request):
+    pos_quantity()
+    # response= json.dumps(database)
+    # print(response)
+    return JsonResponse(database)
+
+
+
+def pos_quantity():
+    # posData ={}
+    print("Step1")
+    posData = json.loads(queryPos())
+    print("Step2")
+    for item in posData:
+       value = posData[item]
+       barcode = value['barcode']
+       print("barcode",barcode)
+       if barcode in database:
+            database[barcode]['quantity'] = int(database[barcode]['quantity'])-int(value['salesQuantity'])
+            database[barcode]['salesQuantity'] = int(value['salesQuantity'])
+    with open(path+'/myapp/database.json', 'w') as jsonFile:
+        json.dump(database, jsonFile)
+

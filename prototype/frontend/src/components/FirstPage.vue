@@ -2,32 +2,6 @@
     <div>
       <Header></Header>
       <div class='MainBox'>
-        <el-row>
-          <div class='box1'>
-            <el-upload
-              action="#"
-              list-type="picture-card"
-              :auto-upload="false">
-                <i slot="default" class="el-icon-plus"></i>
-                <div slot="file" slot-scope="{file}">
-                  <img
-                    class="el-upload-list__item-thumbnail"
-                    :src="file.url" alt=""
-                  >
-                   <span class="el-upload-list__item-actions">
-                    <span
-                      v-if="!disabled"
-                      class="el-upload-list__item-delete"
-                      @click="handleUpload(file)"
-                    >
-                      <i class="el-icon-upload2"></i>
-                    </span>
-                </div>
-            </el-upload>
-            <el-dialog :visible.sync="dialogVisible">
-              <img width="100%" :src="dialogImageUrl" alt="">
-            </el-dialog>
-        </el-row>
         <el-row display="margin-top:10px">
           <el-input placeholder="Enter Barcode" v-model="input" :disabled="true" style="display:inline-table; width: 60%; float:left"></el-input>
           <el-button @click="submitBarcode" style="float:left; margin: 2px;"> submit</el-button>
@@ -53,11 +27,13 @@ export default {
   data () {
     return {
       input: '',
-      productInfo: {
-        barcode: '',
-        name: '',
-        price: ''
-      },
+      productInfo: [
+        {
+          barcode: '',
+          name: '',
+          price: ''
+        }
+      ],
       fileName: '',
       barcode: ''
     }
@@ -74,25 +50,13 @@ export default {
 
     submitBarcode () {
       console.log('>>>' + this.input)
-      this.axios.get('http://127.0.0.1:8000/api/barcode_get_item?barcode=' + this.input).then(response => {
+      this.axios.get('http://127.0.0.1:8000/api/overview_item').then(response => {
         var res = response.data
         console.log(res)
-        this.productInfo = res['productInfo']
-        console.log(res['productInfo'])
-        console.log(res['productInfo'][0].barcode)
-        if (res['newItem'] === 1) {
-          console.log('he!')
-          this.$router.push({
-            path: '/NewProduct',
-            name: 'NewProduct',
-            query: {
-              barcode: res['productInfo'][0].barcode
-            }
-            // params: {
-            //   barcode: res['productInfo'].barcode
-            // }
-          })
-        }
+
+        // params: {
+        //   barcode: res['productInfo'].barcode
+        // }
       })
     },
 
