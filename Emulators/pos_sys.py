@@ -4,8 +4,8 @@ import json
 
 def updateQuantity(barcode, data):
     if barcode:
-        temp = data[barcode]["quantity"]
-        data[barcode]["quantity"] = temp+1
+        temp = data[barcode]["salesQuantity"]
+        data[barcode]["salesQuantity"] = temp+1
 
 def main():
     HOST = '127.0.0.1'
@@ -40,7 +40,7 @@ class ServerThread(threading.Thread):
         self.stopped = False
 
     def run(self):
-        self.sock.listen(1)
+        self.sock.listen(10)
         while True:
             print('Listening at', self.port)
             conn, addr = self.sock.accept()

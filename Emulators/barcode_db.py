@@ -20,14 +20,20 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 msg = conn.recv(1024)
                 barcode = msg.decode('utf-8')
                 print("Client sent:" ,barcode)
-                reply = ""
+                reply = {}
                 if not barcode:
                     reply = "FALSE"
                 elif barcode == "QUIT":
                     stopped = True
                 else:
-                    reply = json.dumps(data[barcode])
-                conn.sendall(reply.encode())
+                    if barcode in data:
+                        reply['productInfo'] = json.dumps(data[barcode])
+                        reply['newItem']=0
+                    else:
+                        reply['newItem']=1
+
+                print(json.dumps(reply))
+                conn.sendall(json.dumps(reply).encode())
             conn.close()
         except Exception:
             print("closing connection")
