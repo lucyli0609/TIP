@@ -78,6 +78,9 @@
                 <el-form-item label="Unit Price">
                     <el-input v-model="price"></el-input>
                 </el-form-item>
+                <el-form-item label="Supplier Details">
+                    <el-input v-model="supplier"></el-input>
+                </el-form-item>
                 <el-form-item label="Quantity">
                     <el-input-number v-model="quantity"></el-input-number>
                 </el-form-item>
@@ -98,11 +101,13 @@ export default {
       barcode: '',
       name: '',
       price: '',
+      supplier: '',
       quantity: '',
       form: {
         barcode: '',
         name: '',
         price: '',
+        supplier: '',
         quantity: ''
       }
     }
@@ -116,24 +121,36 @@ export default {
       this.fileName = file.name
       this.barcode = this.fileName
     },
+    clear () {
+      this.barcode = ''
+      this.supplier = ''
+      this.price = ''
+      this.name = ''
+      this.quantity = ''
+    },
     searchBarcode () {
       this.axios.get('http://127.0.0.1:8000/api/barcode_get_item?barcode=' + this.barcode).then(response => {
         var res = response.data
         console.log(res)
         console.log(res['productInfo'])
         this.form = res['productInfo']
-        if (res.newItem === 0) {
-          this.name = res['productInfo'].name
-          this.price = res['productInfo'].price
-          this.$message({
-            message: 'We found the product in the Barcode Database',
-            type: 'success'
-          })
+        this.name = res['productInfo'].name
+        this.price = res['productInfo'].price
+        if (res['error_num'] === 1) {
+          this.$message.error('We cannot find the information, please manully enter')
         } else {
-          this.$message({
-            message: 'We cannot find the product, please manually enter details',
-            type: 'warning'
-          })
+          if (res.newItem === 0) {
+            this.supplier = res['productInfo'].supplier
+            this.$message({
+              message: 'We found the product in the your Database',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: 'This is a new product, Information get from barcode system',
+              type: 'warning'
+            })
+          }
         }
       })
     },
@@ -142,11 +159,21 @@ export default {
         barcode: this.barcode,
         name: this.name,
         price: this.price,
-        quantity: this.quantity
+        quantity: this.quantity,
+        supplier: this.supplier
 
       }).then(response => {
         console.log(response)
         console.log(response.data)
+        this.$message({
+          message: 'Updated Successfully!',
+          type: 'success'
+        })
+        this.clear()
+        // this.barcode = ''
+        // this.supplier = ''
+        // this.price = ''
+        // this.name = ''
       })
     }
   }
