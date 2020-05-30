@@ -7,7 +7,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // import '../theme/index.css'
 import axios from 'axios'
+import VueParticles from 'vue-particles'
+import VueResource from 'vue-resource'
 
+Vue.use(VueParticles)
+Vue.use(VueResource)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.config.productionTip = false

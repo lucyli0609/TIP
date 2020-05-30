@@ -26,11 +26,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 elif barcode == "QUIT":
                     stopped = True
                 else:
-                    if barcode in data:
-                        reply['productInfo'] = json.dumps(data[barcode])
-                        reply['newItem']=0
-                    else:
-                        reply['newItem']=1
+                    reply= data[barcode]
+                    
 
                 print(json.dumps(reply))
                 conn.sendall(json.dumps(reply).encode())

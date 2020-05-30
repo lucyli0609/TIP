@@ -25,8 +25,7 @@ def queryBarcode(barcode):
     reply = sock.recv(1024).decode('utf-8')
     print(reply)
     #send ending message
-    end = "QUIT"
-    sock.send(end.encode())
+    sock.close()
     return reply
 
 def queryPos():
@@ -43,8 +42,8 @@ def queryPos():
     reply = sock.recv(1024).decode('utf-8')
     print(reply)
     #send ending message
-    end = "QUIT"
-    sock.send(end.encode())
+    sock.close()
+
     return reply
 
 # HOST = '127.0.0.1'
@@ -58,11 +57,17 @@ def queryPos():
 
 # Create your views here.
 @require_http_methods(["GET"])
-def show_books(request):
-    response = {}
+def barcode_get_item(request):
+    barcode = request.GET.get('barcode')
     try:
-        # books = Book.objects.filter()
-        # response['list'] = json.loads(serializers.serialize("json", books))
+    #First query database
+        response = queryDatabase(barcode)
+
+        #current database no recode query barcode system
+        if response['newItem']==1:
+            productInfo=json.loads(queryBarcode(barcode))
+            print(">>>>",productInfo)
+            response['productInfo']=productInfo
         response['msg'] = 'success'
         response['error_num'] = 0
     except  Exception as e:
@@ -70,31 +75,23 @@ def show_books(request):
         response['error_num'] = 1
     return JsonResponse(response)
 
-@require_http_methods(["GET"])
-def barcode_get_item(request):
-    response = {}
-    # try:
-    responseGet=json.loads(queryBarcode(request.GET.get('barcode')))
-    print("1111",response)
-        # response['productInfo'] ={'barcode': '012000000133','name': 'Pepsi','price': '4'}
-    response['msg'] = 'success'
-    response['error_num'] = 0
-    response['newItem'] = responseGet['newItem']
-    if(response['newItem']==0):
-        response['productInfo']=json.loads(responseGet['productInfo'])
-        # response['newItem'] =0
-    # except  Exception as e:
-    #     response['msg'] = str(e)
-    #     response['error_num'] = 1
-    return JsonResponse(response)
+def queryDatabase(barcode):
+    reply={}
+    if barcode in database:
+        reply['productInfo'] = database[barcode]
+        reply['newItem']=0
+    else:
+        reply['newItem']=1
+    return reply
 
-def add_product(barcode, quantity, name, price):
+
+def add_product(barcode, quantity, name, price, supplier):
     print('Yes')
     if barcode in database:
         database[barcode]['quantity']=int(database[barcode]['quantity'])+int(quantity)
         print('here')
     else:
-        database[barcode]={'barcode':barcode,'name':name, 'quantity':int(quantity), 'price': price, 'salesQuantity': 0}
+        database[barcode]={'barcode':barcode,'name':name, 'quantity':int(quantity), 'price': price, 'salesQuantity': 0,'supplier': supplier}
         print('there')
     with open(path+'/myapp/database.json', 'w') as jsonFile:
         print(database)
@@ -107,7 +104,7 @@ def update_info(request):
     response = json.loads(request.body)
     print(response['barcode'])
     print(request.body)
-    add_product(response['barcode'],response['quantity'],response['name'],response['price'])
+    add_product(response['barcode'],response['quantity'],response['name'],response['price'], response['supplier'])
     response={}
     response['msg'] = 'success'
     return JsonResponse(response)
@@ -118,8 +115,13 @@ def overview_item(request):
     pos_quantity()
     # response= json.dumps(database)
     # print(response)
-    return JsonResponse(database)
-
+    response={}
+    response['productInfo']=[]
+    for barcode in database:
+        value = database[barcode]
+        response['productInfo'].append(value)
+    print(response)
+    return JsonResponse(response)
 
 
 def pos_quantity():
@@ -133,7 +135,7 @@ def pos_quantity():
        print("barcode",barcode)
        if barcode in database:
             database[barcode]['quantity'] = int(database[barcode]['quantity'])-int(value['salesQuantity'])
-            database[barcode]['salesQuantity'] = int(value['salesQuantity'])
+            database[barcode]['salesQuantity'] = int(database[barcode]['salesQuantity'])+int(value['salesQuantity'])
     with open(path+'/myapp/database.json', 'w') as jsonFile:
         json.dump(database, jsonFile)
 

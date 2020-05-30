@@ -3,8 +3,7 @@
       <Header></Header>
       <div class='MainBox'>
         <el-row display="margin-top:10px">
-          <el-input placeholder="Enter Barcode" v-model="input" :disabled="true" style="display:inline-table; width: 60%; float:left"></el-input>
-          <el-button @click="submitBarcode" style="float:left; margin: 2px;"> submit</el-button>
+          <el-button @click="submitBarcode" style="float:left; margin: 2px;"> Update</el-button>
         </el-row>
         <el-row>
           <el-table :data="productInfo" style="width: 100%" border>
@@ -14,8 +13,11 @@
             </el-table-column>
             <el-table-column prop="price" label="Product Unit Price" min-width="100">
             </el-table-column>
+            <el-table-column prop="quantity" label="Existing Quantity" min-width="100">
+            </el-table-column>
+            <el-table-column prop="salesQuantity" label="Sales Quantity" min-width="100">
+            </el-table-column>
           </el-table>
-
         </el-row>
       </div>
     </div>
@@ -31,7 +33,10 @@ export default {
         {
           barcode: '',
           name: '',
-          price: ''
+          price: '',
+          quantity: '',
+          salesQuantity: '',
+          supplier: ''
         }
       ],
       fileName: '',
@@ -40,23 +45,13 @@ export default {
   },
   name: 'FirstPage',
   methods: {
-    showBook () {
-      console.log('Hey there')
-      this.axios.get('http://127.0.0.1:8000/api/show_books').then(response => {
-        var res = response.data
-        console.log(res)
-      })
-    },
 
     submitBarcode () {
       console.log('>>>' + this.input)
       this.axios.get('http://127.0.0.1:8000/api/overview_item').then(response => {
         var res = response.data
         console.log(res)
-
-        // params: {
-        //   barcode: res['productInfo'].barcode
-        // }
+        this.productInfo = res['productInfo']
       })
     },
 
