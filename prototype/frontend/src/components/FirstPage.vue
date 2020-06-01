@@ -2,13 +2,18 @@
     <div>
       <Header></Header>
       <div class='MainBox'>
+        <div class='Title'>
+          <h3> Overview of Inventory and Sales </h3>
+        </div>
+        <div class='UpdateBox'>
         <el-row display="margin-top:10px">
-          <el-button @click="submitBarcode" style="float:left; margin: 2px;"> Update</el-button>
+            <el-button type="danger" plain @click="submitBarcode"> Update</el-button>
         </el-row>
+        </div>
+
+        <div class='TableBox'>
         <el-row>
           <el-table :data="productInfo" style="width: 100%" border>
-            <el-table-column prop="barcode" label="Barcode Number" min-width="100">
-            </el-table-column>
             <el-table-column prop="name" label="Product Name" min-width="100">
             </el-table-column>
             <el-table-column prop="price" label="Product Unit Price" min-width="100">
@@ -19,6 +24,9 @@
             </el-table-column>
           </el-table>
         </el-row>
+      </div>
+      </div>
+      <div class="square">
       </div>
     </div>
 </template>
@@ -70,9 +78,27 @@ export default {
 
 <style scoped>
 .MainBox{
-  margin-top: 20px;
+  margin-top: 10px;
 }
-.box1{
-  align-items: center;
+.UpdateBox{
+  text-align: center;
+  Padding: 10px;
 }
+.TableBox{
+  text-align: center;
+  Padding: 8px;
+}
+.square{
+    background-color: #23395d;
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    bottom: 0;
+}
+.Title{
+  text-align: center;
+  margin-top: 15px;
+  color: #23395d
+}
+
 </style>

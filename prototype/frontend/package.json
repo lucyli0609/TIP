@@ -15,8 +15,10 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.15.0",
     "element-ui": "^2.13.2",
-    "vue": "^2.5.2",
+    "vue": "^2.6.11",
     "vue-particles": "^1.0.9",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1"

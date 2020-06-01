@@ -17,14 +17,20 @@
                    clickMode="push">
         </vue-particles>
         <div class='FirstPage'>
-            <el-row>
-                <img :src="logo" alt="">
+            <el-row style="type:flex">
+                <div style="text-align: center;">
+                  <img :src="logo" alt="">
+                </div>
             </el-row>
-            <el-row style="margin-top: 20px; margin-right:20px; align: center">
-                <el-button @click="goScan">Barcode Scanning Page</el-button>
+            <el-row style="type:flex; margin-top: 20px">
+                <div style="text-align: center;">
+                  <el-button @click="goScan">Barcode Scanning Page</el-button>
+                </div>
             </el-row>
-            <el-row style="margin-top: 20px; margin-right:20px; align: center">
-                <el-button @click="goOverview">Overview Page</el-button>
+            <el-row style="type:flex; margin-top: 20px">
+                <div style="text-align: center;">
+                  <el-button @click="goOverview">Overview Page</el-button>
+                </div>
             </el-row>
         </div>
 
@@ -61,13 +67,12 @@ export default {
 }
 .FirstPage{
      position: relative;
-     margin: 30%;
-
+     margin: 10%;
 }
 img{
     justify-content: center;
     align-items: center;
-    width:400px;
-    height:400px;
+    width: 400px;
+    height: 400px;
 }
 </style>

@@ -2,8 +2,8 @@
     <div>
       <Header></Header>
       <div class='MainBox'>
+        <div class='PictureBox'>
         <el-row>
-          <div class='box1'>
             <el-upload
               action="#"
               list-type="picture-card"
@@ -29,9 +29,16 @@
               <img width="100%" :src="dialogImageUrl" alt="">
             </el-dialog>
         </el-row>
+        </div>
+
+        <div class='ButtonBox'>
         <el-row>
-            <el-button @click="searchBarcode">search the Barcode</el-button>
+            <el-button type="success" plain @click="searchBarcode">Search Your Barcode</el-button>
         </el-row>
+        </div>
+      </div>
+
+        <div class='FormBox'>
         <!-- <el-row display="margin-top:10px; width: 100%" type="flex" class="row-bg">
             <el-column :span="12">
                 <p>Barcode Number</p>
@@ -89,6 +96,7 @@
                 </el-form-item>
             </el-form>
         </el-row>
+        </div>
 
 </template>
 
@@ -192,5 +200,18 @@ export default {
 }
 .form{
     width: 50%;
+}
+.MainBox{
+    text-align: center;
+    margin-top: 20px;
+}
+.ButtonBox{
+    margin-top: 20px;
+}
+.FormBox{
+    Padding: 20px;
+}
+.el-form-item{
+  margin-bottom: 10px;
 }
 </style>

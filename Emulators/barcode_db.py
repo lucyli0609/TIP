@@ -16,22 +16,17 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         try:
             print('Connected by', addr)
             stopped = False
-            while not stopped:
+            while True:
                 msg = conn.recv(1024)
                 barcode = msg.decode('utf-8')
                 print("Client sent:" ,barcode)
                 reply = {}
                 if not barcode:
                     reply = "FALSE"
-                elif barcode == "QUIT":
-                    stopped = True
                 else:
                     reply= data[barcode]
-                    
-
                 print(json.dumps(reply))
                 conn.sendall(json.dumps(reply).encode())
-            conn.close()
         except Exception:
             print("closing connection")
             conn.close()

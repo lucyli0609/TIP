@@ -1,7 +1,6 @@
 <template>
     <div class='header-wrapper'>
         <div class='header'>
-            <p>Easy Peasy</p>
             <img :src='logo' style="width:100px; height:100px">
         </div>
     </div>
@@ -20,7 +19,7 @@ export default {
 
 <style scoped>
 .header-wrapper{
-    background-color: #3170a7;
+    background-color: #23395d;
     margin: 0px;
     padding: 0px;
     border: 0px;
