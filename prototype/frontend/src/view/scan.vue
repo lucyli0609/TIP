@@ -5,6 +5,7 @@
         <div class='PictureBox'>
         <el-row>
             <el-upload
+              ref='pic'
               action="#"
               list-type="picture-card"
               :auto-upload="false">
@@ -21,7 +22,7 @@
                       @click="handleUpload(file)"
                     >
                       <i class="el-icon-upload2"></i>
-                      <p class="search">Search Barcode</p>
+                      <p class="search">Scan Barcode</p>
                     </span>
                 </div>
             </el-upload>
@@ -39,41 +40,6 @@
       </div>
 
         <div class='FormBox'>
-        <!-- <el-row display="margin-top:10px; width: 100%" type="flex" class="row-bg">
-            <el-column :span="12">
-                <p>Barcode Number</p>
-            </el-column>
-            <el-column :span="12">
-                <el-input placeholder="Please input" v-model="barcode"></el-input>
-            </el-column>
-        </el-row>
-        <el-row display="margin-top:10px" type="flex" class="row-bg">
-            <el-column :span="12">
-                <p class='form'>Product Name</p>
-            </el-column>
-            <el-column :span="12">
-                <el-input placeholder="Please input" v-model="name"></el-input>
-            </el-column>
-        </el-row>
-        <el-row display="margin-top:10px" type="flex" class="row-bg">
-            <el-column :span="12">
-                <p>Unit Price</p>
-            </el-column>
-            <el-column :span="12">
-                <el-input placeholder="Please input" v-model="price"></el-input>
-            </el-column>
-        </el-row>
-        <el-row display="margin-top:10px" type="flex" class="row-bg">
-            <el-column :span="12">
-                <p>Quantity</p>
-            </el-column>
-            <el-column :span="12">
-                <el-input placeholder="Please input" v-model="quantity"></el-input>
-            </el-column>
-        </el-row>
-        <el-row>
-            <el-button type="primary">Submit</el-button>
-        </el-row> -->
         <el-row>
             <el-form label-width="120px" ref="form" :model="form" :label-position="left">
                 <el-form-item label="Barcode Number">
@@ -127,9 +93,10 @@ export default {
     handleUpload (file) {
       console.log(file.name)
       this.fileName = file.name
-      this.barcode = this.fileName
+      this.barcode = this.fileName.split('.')[0]
     },
     clear () {
+      this.$refs.pic.clearFiles()
       this.barcode = ''
       this.supplier = ''
       this.price = ''

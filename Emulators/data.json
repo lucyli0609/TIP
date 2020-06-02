@@ -1,17 +1,17 @@
 {
-  "049000006347": {
-    "barcode": "049000006346",
-    "name": "Coca-Cola",
-    "price": "4"
+  "2616502104": {
+    "barcode": "2616502104",
+    "name": "Noodle",
+    "price": "12"
   },
-  "012000000133": {
+  "02291305": {
     "barcode": "012000000133",
-    "name": "Pepsi",
+    "name": "Banana Drink",
     "price": "4"
   },
   "12345": {
     "barcode": "12345",
-    "name": "Hello",
+    "name": "Demo Product",
     "price": "14"
   }
   
