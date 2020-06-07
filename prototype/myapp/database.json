@@ -1,10 +1,1 @@
-{
-    "2616502104": {
-        "barcode": "2616502104",
-        "name": "Noodle",
-        "quantity": 40,
-        "price": "12",
-        "salesQuantity": 0,
-        "supplier": "Mia"
-    }
-}
+{"2616502104": {"barcode": "2616502104", "name": "Noodle", "quantity": 46, "price": "12", "salesQuantity": 8, "supplier": "Mia"}, "02291305": {"barcode": "02291305", "name": "Banana Drink", "quantity": 28, "price": "4", "salesQuantity": 2, "supplier": "Lucy"}}
