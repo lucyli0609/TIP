@@ -249,6 +249,10 @@ Noted that there are only two types of product will be updated by the pos emulat
 - You  can access the database for the barcode under the Emulators folder , called *data.json*
 - You can access the database for the sales data under the Emulators folder , called *sales.json*
 
+# Short Demo Video
+A brief demo video can be found at:
+https://www.youtube.com/watch?v=9yAafeCepSQ&t=4s
+
 # Contact Information
 
 If there is any other issue please email for tech support:
